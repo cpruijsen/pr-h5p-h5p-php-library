@@ -255,7 +255,8 @@
         name: info.library.name,
         oldVersion: info.library.version,
         newVersion: self.version.toString(),
-        params: self.parameters[id]
+        params: self.parameters[id],
+        fixSubcontent: info.fixSubcontent
       });
     }
     else {
@@ -281,7 +282,7 @@
         }
 
         self.workDone(id, result);
-      });
+      }, info.fixSubcontent);
     }
   };
 
@@ -292,7 +293,7 @@
     var self = this;
 
     self.working--;
-    if (result === null) {
+    if (result === null || info.fixSubcontent) {
       self.skipped.push(id);
     }
     else {
