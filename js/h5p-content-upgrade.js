@@ -1,7 +1,7 @@
 /* global H5PAdminIntegration H5PUtils */
 
 (function ($, Version) {
-  var info, $log, $container, librariesCache = {}, scriptsCache = {};
+  var info, $log, $container, librariesCache = {}, scriptsCache = {}, lastId = 0;
 
   // Initialize
   $(document).ready(function () {
@@ -293,11 +293,15 @@
     var self = this;
 
     self.working--;
-    if (result === null || info.fixSubcontent) {
+    if (result === null) {
       self.skipped.push(id);
     }
     else {
       self.upgraded[id] = result;
+    }
+
+    if (id > lastId) {
+      lastId = id;
     }
 
     // Update progress message
@@ -310,7 +314,8 @@
         libraryId: self.version.libraryId,
         token: self.token,
         skipped: JSON.stringify(self.skipped),
-        params: JSON.stringify(self.upgraded)
+        params: JSON.stringify(self.upgraded),
+        lastId: lastId
       });
     }
   };
