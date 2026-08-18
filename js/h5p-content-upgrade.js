@@ -292,6 +292,9 @@
   ContentUpgrade.prototype.workDone = function (id, result, worker) {
     var self = this;
 
+    // Ensure always number (for compare to work)
+    id = parseInt(id, 10);
+
     self.working--;
     if (result === null) {
       self.skipped.push(id);
